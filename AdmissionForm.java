@@ -1,4 +1,4 @@
-package assignment;
+package project;
 
 import javax.swing.*;
 import java.awt.*;
@@ -10,16 +10,34 @@ public class AdmissionForm {
         // Create the frame
         JFrame frame = new JFrame("Student Admission Form");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(450, 750);  // Increase height to accommodate new field
-        frame.setLayout(new GridLayout(13, 2));  // Increase row count to 13
+        frame.setSize(500, 800);  // Increase height to accommodate new fields
+        frame.setLayout(new GridBagLayout());  // Using GridBagLayout for better control
+
+        GridBagConstraints gbc = new GridBagConstraints();
+        gbc.insets = new Insets(10, 10, 10, 10);  // Space between components
 
         // Create labels and text fields
         JLabel nameLabel = new JLabel("Name:");
-        JTextField nameField = new JTextField();
+        JTextField nameField = new JTextField(20);
         
         JLabel dobLabel = new JLabel("Date of Birth (dd/MM/yyyy):");
-        JTextField dobField = new JTextField();
+
+        // Day, Month, Year combo boxes
+        String[] days = new String[31];
+        for (int i = 0; i < 31; i++) {
+            days[i] = String.format("%02d", i + 1);
+        }
+        JComboBox<String> dayComboBox = new JComboBox<>(days);
+
+        String[] months = new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+        JComboBox<String> monthComboBox = new JComboBox<>(months);
         
+        String[] years = new String[35];
+        for (int i = 0; i < years.length; i++) {
+            years[i] = String.valueOf(2024 - i);  // Years from 2024 to 1990
+        }
+        JComboBox<String> yearComboBox = new JComboBox<>(years);
+
         JLabel genderLabel = new JLabel("Gender:");
         JRadioButton maleRadio = new JRadioButton("Male");
         JRadioButton femaleRadio = new JRadioButton("Female");
@@ -28,7 +46,7 @@ public class AdmissionForm {
         genderGroup.add(maleRadio);
         genderGroup.add(femaleRadio);
         genderGroup.add(otherRadio);
-        
+
         JLabel bloodGroupLabel = new JLabel("Blood Group:");
         JCheckBox aPlus = new JCheckBox("A+");
         JCheckBox aMinus = new JCheckBox("A-");
@@ -39,9 +57,8 @@ public class AdmissionForm {
         JCheckBox abPlus = new JCheckBox("AB+");
         JCheckBox abMinus = new JCheckBox("AB-");
 
-        // Father's Name field added before Present Address
         JLabel fatherNameLabel = new JLabel("Father's Name:");
-        JTextField fatherNameField = new JTextField();
+        JTextField fatherNameField = new JTextField(20);
 
         JLabel presentAddressLabel = new JLabel("Present Address:");
         JTextArea presentAddressField = new JTextArea(3, 20);
@@ -51,41 +68,65 @@ public class AdmissionForm {
         JTextArea permanentAddressField = new JTextArea(3, 20);
         JScrollPane permanentAddressScroll = new JScrollPane(permanentAddressField);
         
-        // Checkbox for same permanent address as present address (this will be on the same line as permanent address)
         JCheckBox sameAsPresentAddress = new JCheckBox("Same as Present Address");
 
         JLabel emailLabel = new JLabel("Email:");
-        JTextField emailField = new JTextField();
-        
+        JTextField emailField = new JTextField(20);
+
         JLabel phoneLabel = new JLabel("Phone:");
-        JTextField phoneField = new JTextField();
-        
+        JTextField phoneField = new JTextField(20);
+
         JLabel guardianLabel = new JLabel("Guardian Name:");
-        JTextField guardianField = new JTextField();
-        
+        JTextField guardianField = new JTextField(20);
+
         JLabel emergencyContactLabel = new JLabel("Emergency Contact:");
-        JTextField emergencyContactField = new JTextField();
-        
+        JTextField emergencyContactField = new JTextField(20);
+
         JButton submitButton = new JButton("Submit");
         JButton resetButton = new JButton("Reset");
-        
-        // Add components to the frame
-        frame.add(nameLabel);
-        frame.add(nameField);
-        
-        frame.add(dobLabel);
-        frame.add(dobField);
-        
-        frame.add(genderLabel);
+
+        // Set GridBagConstraints for the components
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        frame.add(nameLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(nameField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(dobLabel, gbc);
+
+        // Adding date components (day, month, year)
+        JPanel datePanel = new JPanel();
+        datePanel.add(dayComboBox);
+        datePanel.add(new JLabel("/"));
+        datePanel.add(monthComboBox);
+        datePanel.add(new JLabel("/"));
+        datePanel.add(yearComboBox);
+
+        gbc.gridx = 1;
+        frame.add(datePanel, gbc);
+
+        // Gender Section
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(genderLabel, gbc);
+
         JPanel genderPanel = new JPanel();
         genderPanel.add(maleRadio);
         genderPanel.add(femaleRadio);
         genderPanel.add(otherRadio);
-        frame.add(genderPanel);
-        
-        frame.add(bloodGroupLabel);
+        gbc.gridx = 1;
+        frame.add(genderPanel, gbc);
+
+        // Blood Group Section
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(bloodGroupLabel, gbc);
+
         JPanel bloodGroupPanel = new JPanel();
-        bloodGroupPanel.setLayout(new GridLayout(4, 2)); // Two columns for blood group options
+        bloodGroupPanel.setLayout(new GridLayout(2, 4));  // Arrange blood groups in a 2x4 grid
         bloodGroupPanel.add(aPlus);
         bloodGroupPanel.add(aMinus);
         bloodGroupPanel.add(bPlus);
@@ -94,43 +135,84 @@ public class AdmissionForm {
         bloodGroupPanel.add(oMinus);
         bloodGroupPanel.add(abPlus);
         bloodGroupPanel.add(abMinus);
-        frame.add(bloodGroupPanel);
-        
-        // Add Father's Name field to the form before Present Address
-        frame.add(fatherNameLabel);
-        frame.add(fatherNameField);
-        
-        frame.add(presentAddressLabel);
-        frame.add(presentAddressScroll);
-        
-        frame.add(permanentAddressLabel);
-        JPanel permanentAddressPanel = new JPanel();
-        permanentAddressPanel.setLayout(new BorderLayout());  // This ensures the checkbox stays inline
-        permanentAddressPanel.add(permanentAddressScroll, BorderLayout.CENTER);
-        permanentAddressPanel.add(sameAsPresentAddress, BorderLayout.SOUTH); // Place checkbox below
-        frame.add(permanentAddressPanel);
-        
-        frame.add(emailLabel);
-        frame.add(emailField);
-        
-        frame.add(phoneLabel);
-        frame.add(phoneField);
-        
-        frame.add(guardianLabel);
-        frame.add(guardianField);
-        
-        frame.add(emergencyContactLabel);
-        frame.add(emergencyContactField);
-        
-        frame.add(submitButton);
-        frame.add(resetButton);
 
-        // Set action for the submit button
+        gbc.gridx = 1;
+        frame.add(bloodGroupPanel, gbc);
+
+        // Father's Name Section
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(fatherNameLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(fatherNameField, gbc);
+
+        // Address Section
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(presentAddressLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(presentAddressScroll, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(permanentAddressLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(permanentAddressScroll, gbc);
+
+        gbc.gridx = 1;
+        gbc.gridy++;
+        frame.add(sameAsPresentAddress, gbc);
+
+        // Contact Info Section
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(emailLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(emailField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(phoneLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(phoneField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(guardianLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(guardianField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(emergencyContactLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(emergencyContactField, gbc);
+
+        // Buttons Section
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(submitButton, gbc);
+
+        gbc.gridx = 1;
+        frame.add(resetButton, gbc);
+
+  
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
-                String dob = dobField.getText();
+                String day = (String) dayComboBox.getSelectedItem();
+                String month = (String) monthComboBox.getSelectedItem();
+                String year = (String) yearComboBox.getSelectedItem();
+                String dob = day + "/" + month + "/" + year;
+
                 String gender = maleRadio.isSelected() ? "Male" : femaleRadio.isSelected() ? "Female" : "Other";
                 String bloodGroup = "";
                 if (aPlus.isSelected()) bloodGroup += "A+ ";
@@ -150,22 +232,21 @@ public class AdmissionForm {
                 String guardianName = guardianField.getText();
                 String emergencyContact = emergencyContactField.getText();
 
-                // Display a confirmation message
-                String message = "Name: " + name + "\nDate of Birth: " + dob + "\nGender: " + gender +
-                                 "\nBlood Group: " + bloodGroup.trim() + "\nPresent Address: " + presentAddress +
-                                 "\nPermanent Address: " + permanentAddress + "\nFather's Name: " + fatherName +
-                                 "\nEmail: " + email + "\nPhone: " + phone + "\nGuardian Name: " + guardianName +
-                                 "\nEmergency Contact: " + emergencyContact;
+                String message = "Name: " + name + "\nDate of Birth: " + dob +
+                                 "\nGender: " + gender + "\nBlood Group: " + bloodGroup.trim() +
+                                 "\nPresent Address: " + presentAddress + "\nPermanent Address: " + permanentAddress +
+                                 "\nFather's Name: " + fatherName + "\nEmail: " + email + "\nPhone: " + phone +
+                                 "\nGuardian Name: " + guardianName + "\nEmergency Contact: " + emergencyContact;
                 JOptionPane.showMessageDialog(frame, message, "Admission Details", JOptionPane.INFORMATION_MESSAGE);
             }
         });
-
-        // Set action for the reset button
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 nameField.setText("");
-                dobField.setText("");
+                dayComboBox.setSelectedIndex(0);
+                monthComboBox.setSelectedIndex(0);
+                yearComboBox.setSelectedIndex(0);
                 genderGroup.clearSelection();
                 aPlus.setSelected(false);
                 aMinus.setSelected(false);
@@ -177,24 +258,23 @@ public class AdmissionForm {
                 abMinus.setSelected(false);
                 presentAddressField.setText("");
                 permanentAddressField.setText("");
-                fatherNameField.setText("");  // Clear Father's Name field
+                fatherNameField.setText("");
                 emailField.setText("");
                 phoneField.setText("");
                 guardianField.setText("");
                 emergencyContactField.setText("");
-                sameAsPresentAddress.setSelected(false);  // Reset checkbox
+                sameAsPresentAddress.setSelected(false);
             }
         });
 
-        // Add action to the checkbox to copy present address to permanent address
         sameAsPresentAddress.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 if (sameAsPresentAddress.isSelected()) {
                     permanentAddressField.setText(presentAddressField.getText());
-                    permanentAddressField.setEditable(false);  // Make it uneditable
+                    permanentAddressField.setEditable(false);  
                 } else {
-                    permanentAddressField.setEditable(true);  // Allow manual editing
+                    permanentAddressField.setEditable(true);  
                     permanentAddressField.setText("");
                 }
             }
