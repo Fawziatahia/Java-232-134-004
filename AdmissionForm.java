@@ -7,34 +7,51 @@ import java.awt.event.ActionListener;
 
 public class AdmissionForm {
     public static void main(String[] args) {
-        // Create the frame
+       
         JFrame frame = new JFrame("Student Admission Form");
         frame.setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
-        frame.setSize(500, 800);  // Increase height to accommodate new fields
-        frame.setLayout(new GridBagLayout());  // Using GridBagLayout for better control
+        frame.setSize(500, 800); 
+        frame.setLayout(new GridBagLayout());  
 
         GridBagConstraints gbc = new GridBagConstraints();
-        gbc.insets = new Insets(10, 10, 10, 10);  // Space between components
+        gbc.insets = new Insets(10, 10, 10, 10);  
 
-        // Create labels and text fields
-        JLabel nameLabel = new JLabel("Name:");
+        JLabel titleLabel = new JLabel("METROPOLITAN UNIVERSITY");
+        titleLabel.setFont(new Font("Arial", Font.BOLD, 20)); 
+        titleLabel.setHorizontalAlignment(SwingConstants.CENTER); 
+        titleLabel.setForeground(Color.black);
+
+        gbc.gridwidth = 2; 
+        gbc.gridx = 0;
+        gbc.gridy = 0;
+        frame.add(titleLabel, gbc);
+
+        gbc.gridwidth = 1; 
+        gbc.gridy++; 
+
+        JLabel nameLabel = new JLabel("Student Name:");
         JTextField nameField = new JTextField(20);
-        
-        JLabel dobLabel = new JLabel("Date of Birth (dd/MM/yyyy):");
 
-        // Day, Month, Year combo boxes
+        JLabel fatherNameLabel = new JLabel("Father's Name:");
+        JTextField fatherNameField = new JTextField(20);
+
+        JLabel motherNameLabel = new JLabel("Mother's Name:");
+        JTextField motherNameField = new JTextField(20);
+        
+        JLabel dobLabel = new JLabel("Date of Birth:");
+
         String[] days = new String[31];
         for (int i = 0; i < 31; i++) {
             days[i] = String.format("%02d", i + 1);
         }
         JComboBox<String> dayComboBox = new JComboBox<>(days);
 
-        String[] months = new String[] {"01", "02", "03", "04", "05", "06", "07", "08", "09", "10", "11", "12"};
+        String[] months = new String[] {"Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"};
         JComboBox<String> monthComboBox = new JComboBox<>(months);
         
         String[] years = new String[35];
         for (int i = 0; i < years.length; i++) {
-            years[i] = String.valueOf(2024 - i);  // Years from 2024 to 1990
+            years[i] = String.valueOf(2024 - i); 
         }
         JComboBox<String> yearComboBox = new JComboBox<>(years);
 
@@ -47,18 +64,53 @@ public class AdmissionForm {
         genderGroup.add(femaleRadio);
         genderGroup.add(otherRadio);
 
-        JLabel bloodGroupLabel = new JLabel("Blood Group:");
-        JCheckBox aPlus = new JCheckBox("A+");
-        JCheckBox aMinus = new JCheckBox("A-");
-        JCheckBox bPlus = new JCheckBox("B+");
-        JCheckBox bMinus = new JCheckBox("B-");
-        JCheckBox oPlus = new JCheckBox("O+");
-        JCheckBox oMinus = new JCheckBox("O-");
-        JCheckBox abPlus = new JCheckBox("AB+");
-        JCheckBox abMinus = new JCheckBox("AB-");
+        JLabel religionLabel = new JLabel("Religion:");
+        JRadioButton hinduRadio = new JRadioButton("Hindu");
+        JRadioButton muslimRadio = new JRadioButton("Muslim");
+        JRadioButton christianRadio = new JRadioButton("Christian");
+        JRadioButton otherReligionRadio = new JRadioButton("Other");
+        ButtonGroup religionGroup = new ButtonGroup();
+        religionGroup.add(hinduRadio);
+        religionGroup.add(muslimRadio);
+        religionGroup.add(christianRadio);
+        religionGroup.add(otherReligionRadio);
 
-        JLabel fatherNameLabel = new JLabel("Father's Name:");
-        JTextField fatherNameField = new JTextField(20);
+        JLabel bloodGroupLabel = new JLabel("Blood Group:");
+        JRadioButton aPlus = new JRadioButton("A+");
+        JRadioButton aMinus = new JRadioButton("A-");
+        JRadioButton bPlus = new JRadioButton("B+");
+        JRadioButton bMinus = new JRadioButton("B-");
+        JRadioButton oPlus = new JRadioButton("O+");
+        JRadioButton oMinus = new JRadioButton("O-");
+        JRadioButton abPlus = new JRadioButton("AB+");
+        JRadioButton abMinus = new JRadioButton("AB-");
+
+        ButtonGroup bloodGroupGroup = new ButtonGroup();
+        bloodGroupGroup.add(aPlus);
+        bloodGroupGroup.add(aMinus);
+        bloodGroupGroup.add(bPlus);
+        bloodGroupGroup.add(bMinus);
+        bloodGroupGroup.add(oPlus);
+        bloodGroupGroup.add(oMinus);
+        bloodGroupGroup.add(abPlus);
+        bloodGroupGroup.add(abMinus);
+
+        JPanel bloodGroupPanel = new JPanel();
+        bloodGroupPanel.setLayout(new GridLayout(2, 4));  
+        bloodGroupPanel.add(aPlus);
+        bloodGroupPanel.add(aMinus);
+        bloodGroupPanel.add(bPlus);
+        bloodGroupPanel.add(bMinus);
+        bloodGroupPanel.add(oPlus);
+        bloodGroupPanel.add(oMinus);
+        bloodGroupPanel.add(abPlus);
+        bloodGroupPanel.add(abMinus);
+
+        JLabel sscCgpaLabel = new JLabel("SSC GPA:");
+        JTextField sscCgpaField = new JTextField(10);
+
+        JLabel hscCgpaLabel = new JLabel("HSC GPA:");
+        JTextField hscCgpaField = new JTextField(10);
 
         JLabel presentAddressLabel = new JLabel("Present Address:");
         JTextArea presentAddressField = new JTextArea(3, 20);
@@ -85,9 +137,13 @@ public class AdmissionForm {
         JButton submitButton = new JButton("Submit");
         JButton resetButton = new JButton("Reset");
 
-        // Set GridBagConstraints for the components
+        JLabel departmentLabel = new JLabel("Department:");
+        String[] departments = {"Computer Science", "Electrical Engineering", "Software Engineering", 
+                                 "Economics", "English","Law And Justice","BBA"};
+        JComboBox<String> departmentComboBox = new JComboBox<>(departments);
+
         gbc.gridx = 0;
-        gbc.gridy = 0;
+        gbc.gridy++;
         frame.add(nameLabel, gbc);
 
         gbc.gridx = 1;
@@ -95,9 +151,22 @@ public class AdmissionForm {
 
         gbc.gridx = 0;
         gbc.gridy++;
+        frame.add(fatherNameLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(fatherNameField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(motherNameLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(motherNameField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
         frame.add(dobLabel, gbc);
 
-        // Adding date components (day, month, year)
         JPanel datePanel = new JPanel();
         datePanel.add(dayComboBox);
         datePanel.add(new JLabel("/"));
@@ -108,7 +177,6 @@ public class AdmissionForm {
         gbc.gridx = 1;
         frame.add(datePanel, gbc);
 
-        // Gender Section
         gbc.gridx = 0;
         gbc.gridy++;
         frame.add(genderLabel, gbc);
@@ -120,34 +188,46 @@ public class AdmissionForm {
         gbc.gridx = 1;
         frame.add(genderPanel, gbc);
 
-        // Blood Group Section
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(religionLabel, gbc);
+
+        JPanel religionPanel = new JPanel();
+        religionPanel.add(hinduRadio);
+        religionPanel.add(muslimRadio);
+        religionPanel.add(christianRadio);
+        religionPanel.add(otherReligionRadio);
+        gbc.gridx = 1;
+        frame.add(religionPanel, gbc);
+
         gbc.gridx = 0;
         gbc.gridy++;
         frame.add(bloodGroupLabel, gbc);
 
-        JPanel bloodGroupPanel = new JPanel();
-        bloodGroupPanel.setLayout(new GridLayout(2, 4));  // Arrange blood groups in a 2x4 grid
-        bloodGroupPanel.add(aPlus);
-        bloodGroupPanel.add(aMinus);
-        bloodGroupPanel.add(bPlus);
-        bloodGroupPanel.add(bMinus);
-        bloodGroupPanel.add(oPlus);
-        bloodGroupPanel.add(oMinus);
-        bloodGroupPanel.add(abPlus);
-        bloodGroupPanel.add(abMinus);
-
         gbc.gridx = 1;
         frame.add(bloodGroupPanel, gbc);
-
-        // Father's Name Section
+    
         gbc.gridx = 0;
         gbc.gridy++;
-        frame.add(fatherNameLabel, gbc);
+        frame.add(sscCgpaLabel, gbc);
 
         gbc.gridx = 1;
-        frame.add(fatherNameField, gbc);
+        frame.add(sscCgpaField, gbc);
+        
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(hscCgpaLabel, gbc);
 
-        // Address Section
+        gbc.gridx = 1;
+        frame.add(hscCgpaField, gbc);
+
+        gbc.gridx = 0;
+        gbc.gridy++;
+        frame.add(departmentLabel, gbc);
+
+        gbc.gridx = 1;
+        frame.add(departmentComboBox, gbc);
+
         gbc.gridx = 0;
         gbc.gridy++;
         frame.add(presentAddressLabel, gbc);
@@ -166,7 +246,6 @@ public class AdmissionForm {
         gbc.gridy++;
         frame.add(sameAsPresentAddress, gbc);
 
-        // Contact Info Section
         gbc.gridx = 0;
         gbc.gridy++;
         frame.add(emailLabel, gbc);
@@ -195,7 +274,6 @@ public class AdmissionForm {
         gbc.gridx = 1;
         frame.add(emergencyContactField, gbc);
 
-        // Buttons Section
         gbc.gridx = 0;
         gbc.gridy++;
         frame.add(submitButton, gbc);
@@ -203,17 +281,21 @@ public class AdmissionForm {
         gbc.gridx = 1;
         frame.add(resetButton, gbc);
 
-  
         submitButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 String name = nameField.getText();
+                String fatherName = fatherNameField.getText();
+                String motherName = motherNameField.getText();
                 String day = (String) dayComboBox.getSelectedItem();
                 String month = (String) monthComboBox.getSelectedItem();
                 String year = (String) yearComboBox.getSelectedItem();
                 String dob = day + "/" + month + "/" + year;
 
                 String gender = maleRadio.isSelected() ? "Male" : femaleRadio.isSelected() ? "Female" : "Other";
+                String religion = hinduRadio.isSelected() ? "Hindu" : 
+                                  muslimRadio.isSelected() ? "Muslim" : 
+                                  christianRadio.isSelected() ? "Christian" : "Other";
                 String bloodGroup = "";
                 if (aPlus.isSelected()) bloodGroup += "A+ ";
                 if (aMinus.isSelected()) bloodGroup += "A- ";
@@ -224,46 +306,52 @@ public class AdmissionForm {
                 if (abPlus.isSelected()) bloodGroup += "AB+ ";
                 if (abMinus.isSelected()) bloodGroup += "AB- ";
 
+                String sscCgpa = sscCgpaField.getText();
+                String hscCgpa = hscCgpaField.getText();
+                
                 String presentAddress = presentAddressField.getText();
                 String permanentAddress = sameAsPresentAddress.isSelected() ? presentAddress : permanentAddressField.getText();
-                String fatherName = fatherNameField.getText();
                 String email = emailField.getText();
                 String phone = phoneField.getText();
                 String guardianName = guardianField.getText();
                 String emergencyContact = emergencyContactField.getText();
 
-                String message = "Name: " + name + "\nDate of Birth: " + dob +
-                                 "\nGender: " + gender + "\nBlood Group: " + bloodGroup.trim() +
+                String department = (String) departmentComboBox.getSelectedItem();
+
+                String message = "Name: " + name + "\nFather's Name: " + fatherName + "\nMother's Name: " + motherName +
+                                 "\nDate of Birth: " + dob + "\nGender: " + gender + "\nReligion: " + religion + 
+                                 "\nBlood Group: " + bloodGroup.trim() +
+                                 "\nSSC CGPA: " + sscCgpa + "\nHSC CGPA: " + hscCgpa +
+                                 "\nDepartment: " + department +
                                  "\nPresent Address: " + presentAddress + "\nPermanent Address: " + permanentAddress +
-                                 "\nFather's Name: " + fatherName + "\nEmail: " + email + "\nPhone: " + phone +
+                                 "\nEmail: " + email + "\nPhone: " + phone +
                                  "\nGuardian Name: " + guardianName + "\nEmergency Contact: " + emergencyContact;
                 JOptionPane.showMessageDialog(frame, message, "Admission Details", JOptionPane.INFORMATION_MESSAGE);
             }
         });
+
         resetButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
                 nameField.setText("");
+                fatherNameField.setText("");
+                motherNameField.setText("");
                 dayComboBox.setSelectedIndex(0);
                 monthComboBox.setSelectedIndex(0);
                 yearComboBox.setSelectedIndex(0);
                 genderGroup.clearSelection();
-                aPlus.setSelected(false);
-                aMinus.setSelected(false);
-                bPlus.setSelected(false);
-                bMinus.setSelected(false);
-                oPlus.setSelected(false);
-                oMinus.setSelected(false);
-                abPlus.setSelected(false);
-                abMinus.setSelected(false);
+                religionGroup.clearSelection(); 
+                bloodGroupGroup.clearSelection();
                 presentAddressField.setText("");
                 permanentAddressField.setText("");
-                fatherNameField.setText("");
                 emailField.setText("");
                 phoneField.setText("");
                 guardianField.setText("");
                 emergencyContactField.setText("");
                 sameAsPresentAddress.setSelected(false);
+                sscCgpaField.setText("");
+                hscCgpaField.setText("");
+                departmentComboBox.setSelectedIndex(0);
             }
         });
 
